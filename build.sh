@@ -12,8 +12,10 @@ objcopy  /usr/share/cd-boot-images-amd64/tree/EFI/boot/grubx64.efi unused.efi --
 # Prepare the tree
 cp -a /usr/share/cd-boot-images-$ARCH/tree ubuntu-mini-iso/$ARCH/tree
 cp -a /usr/share/cd-boot-images-$ARCH/images ubuntu-mini-iso/$ARCH/images
-mkdir ubuntu-mini-iso/$ARCH/tree/images
-cp -a /usr/share/cd-boot-images-$ARCH/images/boot/grub ubuntu-mini-iso/$ARCH/tree/images/grub || continue
+if [ "$ARCH" = "arm64" ]; then
+    mkdir ubuntu-mini-iso/$ARCH/tree/images
+    cp -a /usr/share/cd-boot-images-$ARCH/images/boot/grub ubuntu-mini-iso/$ARCH/tree/images/grub || continue
+fi
 cat > ubuntu-mini-iso/$ARCH/tree/boot/grub/grub.cfg <<EOF
 clear
 echo "Ubuntu SBAT reset media."
