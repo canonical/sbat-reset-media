@@ -13,6 +13,8 @@ jobs:
 
       - name: Install latest cd-boot-images
         run: sudo apt install -t noble cd-boot-images-amd64 cd-boot-images-arm64
+      - name: Install xorsio
+        run: sudo apt install xorriso
 
       - name: Checkout repository
 
