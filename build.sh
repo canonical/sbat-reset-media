@@ -3,6 +3,13 @@ ARCH=$1
 set -e
 rm -rf ubuntu-mini-iso/$ARCH
 mkdir -p ubuntu-mini-iso/$ARCH/
+
+# Log and assert (we are set -e, so if the grep fails the shell fails) that we have the right level
+echo "SBAT Levels of binaries that will be used:"
+objcopy  /usr/share/cd-boot-images-amd64/tree/EFI/boot/bootx64.efi unused.efi --dump-section .sbat=/dev/stdout | grep -a ^shim,4
+objcopy  /usr/share/cd-boot-images-amd64/tree/EFI/boot/grubx64.efi unused.efi --dump-section .sbat=/dev/stdout | grep -a ^grub,4
+
+# Prepare the tree
 cp -a /usr/share/cd-boot-images-$ARCH/tree ubuntu-mini-iso/$ARCH/tree
 cp -a /usr/share/cd-boot-images-$ARCH/images ubuntu-mini-iso/$ARCH/images
 mkdir ubuntu-mini-iso/$ARCH/tree/images
