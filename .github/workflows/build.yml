@@ -4,14 +4,34 @@ on: [push]
 
 jobs:
   build_and_test:
-    runs-on: ubuntu-oracular
+    runs-on: ubuntu-24.04
     steps:
+      - name: Add proposed pocket
+        run:  |
+          echo "deb [signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] http://archive.ubuntu.com/ubuntu noble-proposed main" > /etc/apt/sources.list.d/proposed.list
+          apt update
+
+      - name: Install latest cd-boot-images
+        run: apt install -t noble cd-boot-images-amd64 cd-boot-images-arm64
+
       - name: Checkout repository
+
         uses: actions/checkout@v4
+
       - name: run build script
-        run: ./build.sh
+        run: |
+          ./build.sh amd64
+          ./build.sh arm64
+
       - name: Upload iso
         uses: actions/upload-artifact@v4
         with:
           name: sbat-reset-media-amd64.iso
           path: sbat-reset-media-amd64.iso
+
+      - name: Upload iso
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbat-reset-media-arm64.iso
+          path: sbat-reset-media-arm64.iso
+
