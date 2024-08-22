@@ -8,6 +8,9 @@ cp -a /usr/share/cd-boot-images-$ARCH/images ubuntu-mini-iso/$ARCH/images
 mkdir ubuntu-mini-iso/$ARCH/tree/images
 cp -a /usr/share/cd-boot-images-$ARCH/images/boot/grub ubuntu-mini-iso/$ARCH/tree/images/grub || continue
 cat > ubuntu-mini-iso/$ARCH/tree/boot/grub/grub.cfg <<EOF
+clear
+echo "Ubuntu SBAT reset media."
+echo
 if [ "\$shim_lock" = "y" ]; then
     echo "This image verified correctly. Disable secure boot and boot it again to reset SBAT level"
 else
@@ -15,16 +18,10 @@ else
     echo "Please remove the media and re-enable secure boot before booting Ubuntu"
 fi
 echo
-echo "Entering the firmware menu in 5 seconds."
-sleep 1
-echo "Entering the firmware menu in 4 seconds."
-sleep 1
-echo "Entering the firmware menu in 3 seconds."
-sleep 1
-echo "Entering the firmware menu in 2 seconds."
-sleep 1
-echo "Entering the firmware menu in 1 seconds."
-sleep 1
+for i in 10 9 8 7 6 5 4 3 2 1; do
+    echo "Entering the firmware menu in \$i seconds..."
+    sleep 1
+done
 fwsetup
 EOF
 mkdir ubuntu-mini-iso/$ARCH/tree/.disk
