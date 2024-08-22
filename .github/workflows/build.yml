@@ -1,0 +1,17 @@
+name: Build image
+
+on: [push]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-oracular
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: run build script
+        run: ./build.sh
+      - name: Upload iso
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbat-reset-media-amd64.iso
+          path: sbat-reset-media-amd64.iso
