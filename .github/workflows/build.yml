@@ -8,11 +8,11 @@ jobs:
     steps:
       - name: Add proposed pocket
         run:  |
-          echo "deb [signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] http://archive.ubuntu.com/ubuntu noble-proposed main" > /etc/apt/sources.list.d/proposed.list
-          apt update
+          echo "deb [signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] http://archive.ubuntu.com/ubuntu noble-proposed main" | sudo tee /etc/apt/sources.list.d/proposed.list
+          sudo apt update
 
       - name: Install latest cd-boot-images
-        run: apt install -t noble cd-boot-images-amd64 cd-boot-images-arm64
+        run: sudo apt install -t noble cd-boot-images-amd64 cd-boot-images-arm64
 
       - name: Checkout repository
 
